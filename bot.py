@@ -2,11 +2,12 @@ import logging
 import settings
 import ephem
 import datetime
+import re
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
-                    filename='bot.log')
+                    filename='/Users/apetrov/LearnPython/projects/mybot/bot.log')
 
 
 def greet_user(update, context):
@@ -36,11 +37,17 @@ def get_planet_place(update, context):
     update.message.reply_text(planet_place)
 
 
+def wordcount(update, context):
+    input_message = update.message.text.split("\wordcount")
+    input_message[1].split()
+    update.message.reply_text(input_message[1].split())
+
 def main():
     mybot = Updater(settings.API_KEY, use_context=True)
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(CommandHandler("planet", get_planet_place))
+    dp.add_handler(CommandHandler("wordcount", wordcount))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
 
     mybot.start_polling()
