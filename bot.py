@@ -5,7 +5,7 @@ import datetime
 import re
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
                     filename='/Users/apetrov/LearnPython/projects/mybot/bot.log')
 
@@ -38,9 +38,27 @@ def get_planet_place(update, context):
 
 
 def wordcount(update, context):
-    input_message = update.message.text.split("\wordcount")
-    input_message[1].split()
-    update.message.reply_text(input_message[1].split())
+    counted_words = []
+    input_message = update.message.text.partition(' ')[2]
+    input_message = input_message.strip()
+    for replc_simb in ('^,', ',$', ','):
+        input_message = re.sub(replc_simb, ' ', input_message)
+    text = input_message.split()
+    try:
+        text[0]
+    except IndexError:
+        update.message.reply_text("Вы не ввели текст")
+        return 
+    for word in text:
+        matched_text = (re.match('(^[a-zA-Zа-яА-ЯёЁ]+([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?|^[a-zA-Zа-яА-ЯёЁ]+-[a-zA-Zа-яА-ЯёЁ]+|^[a-zA-Zа-яА-ЯёЁ]+)', word))
+        try:
+            matched_text.group(0)
+        except AttributeError:
+            pass
+        else:
+            counted_words.append(matched_text.group(0))
+        word_count = len(counted_words) 
+    update.message.reply_text(f"В тексте '{input_message}' {word_count} слов")
 
 def main():
     mybot = Updater(settings.API_KEY, use_context=True)
