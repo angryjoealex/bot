@@ -39,8 +39,8 @@ def get_planet_place(update, context):
 
 def wordcount(update, context):
     counted_words = []
-    input_message = update.message.text.partition(' ')[2]
     input_message = input_message.strip()
+    input_message = update.message.text.partition(' ')[2]
     for replc_simb in ('^,', ',$', ','):
         input_message = re.sub(replc_simb, ' ', input_message)
     text = input_message.split()
