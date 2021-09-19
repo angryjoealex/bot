@@ -50,7 +50,7 @@ def wordcount(update, context):
         update.message.reply_text("Вы не ввели текст")
         return 
     for word in text:
-        matched_text = (re.match('(^[a-zA-Zа-яА-ЯёЁ]+([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?|^[a-zA-Zа-яА-ЯёЁ]+-[a-zA-Zа-яА-ЯёЁ]+|^[a-zA-Zа-яА-ЯёЁ]+)', word))
+        matched_text = re.match('(^[a-zA-Zа-яА-ЯёЁ]+([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?|^[a-zA-Zа-яА-ЯёЁ]+-[a-zA-Zа-яА-ЯёЁ]+|^[a-zA-Zа-яА-ЯёЁ]+)', word)
         try:
             matched_text.group(0)
         except AttributeError:
